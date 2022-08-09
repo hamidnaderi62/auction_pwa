@@ -1,0 +1,2 @@
+let SERVER_ADDRESS = 'http://192.168.1.103:8080/';
+let Chat_SERVER_ADDRESS = 'http://192.168.1.103:3001/';
