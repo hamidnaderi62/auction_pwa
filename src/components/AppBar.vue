@@ -17,11 +17,11 @@
     >
       <v-list-item>
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+          <v-img :src="this.avatar"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
+          <v-list-item-title> {{ name }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -49,13 +49,23 @@
 <script>
   export default {
     data: () => ({
+      name : '',
+      tel : '',
+      avatar : '',
       drawer: false,
       group: null,
       items: [
           { title: 'Home', icon: 'mdi-view-dashboard' },
           { title: 'About', icon: 'mdi-forum' },
         ],
-    }),
+    }), 
+    async mounted() {
+        this.name = await localStorage.getItem('name');
+        this.tel = await localStorage.getItem('tel');
+        this.avatar = await localStorage.getItem('avatar');
+        console.log( 'mounted');
+        
+     },
 
     watch: {
       group () {

@@ -38,7 +38,6 @@
 
 
     <v-col cols="12" disabled v-else >
-        <router-link style="text-decoration: none; color: inherit;" :to="{ name : 'my-auction-detail-page' , params: { auction: auction }}"> 
              <v-card>
                 <v-list-item three-line >
                     <v-list-item-content>
@@ -56,6 +55,9 @@
                             {{calculateDateDiff()}}
                             روز
                         </v-list-item-subtitle>
+                         <v-list-item-subtitle style="font-family:Vazir !important">
+                            فروخته شده
+                        </v-list-item-subtitle>
                     </v-list-item-content>
 
 
@@ -70,7 +72,6 @@
                     </v-list-item-avatar>
                     </v-list-item>
             </v-card>   
-        </router-link>
     </v-col> 
 
 </template>

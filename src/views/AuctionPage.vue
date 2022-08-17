@@ -32,8 +32,8 @@
       }),
       methods :{
           
-          getAuctionsByPerson(personId) {
-            axios.get(SERVER_ADDRESS + 'auctionsByPerson/' + personId)
+          getAuctionsByStatus(auctionStatus) {
+            axios.get(SERVER_ADDRESS + 'auctionsByStatus/' + auctionStatus)
                  .then(res => {
                     this.auctions.push.apply(this.auctions, res.data);
                   }).catch(err => {
@@ -43,7 +43,7 @@
       },
       async  mounted(){
           console.log('MMMounted');
-          this.getAuctionsByPerson(localStorage.getItem('userid'));  
+          this.getAuctionsByStatus('Available');  
           
           } ,
   }

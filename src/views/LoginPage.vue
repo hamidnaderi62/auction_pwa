@@ -1,11 +1,9 @@
 <template>
-  <v-card
-    max-width="400"
-    class="mx-auto"
-  >
+  <v-form>
 
 
-    <v-card-text>
+
+
       <v-col cols="12" align="center" justify="space-around" >
 
 
@@ -16,21 +14,43 @@
           >
         </v-avatar>
 
-        <v-text-field outlined  v-model="username" style="font-family:Vazir !important" label="نام کاربری"></v-text-field>
-        <v-text-field outlined  v-model="password" style="font-family:Vazir !important" label="رمز ورود"></v-text-field>
-        <v-btn block  depressed color="primary" style="font-family:Vazir !important" @click="loginUser" >
+
+        <v-text-field  
+          outlined  
+          v-model="username" 
+          style="font-family:Vazir !important" 
+          label="نام کاربری"
+          :rules="[rules.required]"
+        ></v-text-field>
+        
+        <v-text-field  
+          outlined  
+          v-model="password" 
+          style="font-family:Vazir !important" 
+          label="رمز ورود" 
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          hint=""
+          counter
+          @click:append="show1 = !show1"
+        ></v-text-field>
+        
+        <v-btn block  depressed color="primary" style="font-family:Vazir !important" @click="perosnLogin" >
         ورود
         </v-btn>
+       
       </v-col>
-    </v-card-text>
 
-  </v-card>
+
+   </v-form>
 </template>
 
 <script>
 import axios from 'axios';
 
-let SERVER_ADDRESS = 'http://localhost:8080/';
+let SERVER_ADDRESS = 'http://localhost:4000/';
 
   export default {
     components : {
@@ -38,41 +58,53 @@ let SERVER_ADDRESS = 'http://localhost:8080/';
     props: [ 'auction'],
     data: () => ({
       username : '',
-      password : '',     
+      password : '',   
+
+      show1: false,
+      password: '123',
+      rules : {
+        required: value => !!value || 'ورود این فیلد الزامی است',
+        min: v => v.length >= 3|| 'حداقل طول رمز ورود 3 کارکتر می باشد',
+      },
+
     }),
       async mounted() {
         console.log( 'mounted');
-        await localStorage.setItem('userid' , 'P_2');
+        
      },
      watch : {
 
      },
     methods: {
 
-        loginUser1(){
-          console.log('comments');
-          if(localStorage.getItem('userid')){
-            console.log(localStorage.getItem('userid'));
-            axios.post(SERVER_ADDRESS + 'api/v1/registerComment', {
-            user:  localStorage.getItem('userid'),
-            board: this.board._id,
-            comment : this.newComment
+        async perosnLogin(){
+          console.log('login');
+          if(this.username != '' && this.password != '' ){
+            await axios.post(SERVER_ADDRESS + 'login', {
+            username: this.username,
+            password: this.password
           })
-          .then(function (response) {
-            console.log(response);
+          .then(res => {
+            if(res.status == '201')
+            {  
+              localStorage.setItem('userid' , res.data[0].code);
+              localStorage.setItem('name' , res.data[0].name);
+              localStorage.setItem('tel' , res.data[0].tel);
+              localStorage.setItem('avatar' , res.data[0].avatar);
+              this.$router.replace({  name : 'auction-page' })
+                             
+            }
+            
           })
           .catch(function (error) {
             console.log(error);
           });     
 
+          } else
+          {
+            console.log('user or pass is empty');
           }      
         },
-        loginUser(){
-          console.log('route to auction page');
-          this.$router.replace({  name : 'auction-page' })
-        },
-
-       
     },
 
   }

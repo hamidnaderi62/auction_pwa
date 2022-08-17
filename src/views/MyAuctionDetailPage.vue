@@ -48,7 +48,7 @@
     <v-col cols="12" align="center" justify="space-around" >
       <v-list >
                 پیشنهادات
-      <template v-for="(suggestion, index) in suggestions1">
+      <template v-for="(suggestion, index) in personSuggestions">
 
         <v-divider :inset="false"></v-divider>
 
@@ -64,30 +64,7 @@
             <v-list-item-subtitle v-html="suggestion.name"></v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-btn depressed color="primary"> پذیرش </v-btn>
-        </v-list-item>
-      </template>
-      </v-list>
-    </v-col>
-    
-
-        <v-col cols="12" align="center" justify="space-around" >
-      <v-list >
-                پیشنهادات
-      <template v-for="(suggestion, index) in suggestions">
-
-        <v-divider :inset="false"></v-divider>
-
-        <v-list-item
-          :key="suggestion.name"
-        >
-
-
-          <v-list-item-content>
-            <v-list-item-title v-html="suggestion.suggestedPrice"></v-list-item-title>
-          </v-list-item-content>
-
-          <v-btn depressed color="primary"> پذیرش </v-btn>
+          <v-btn depressed color="primary" @click="acceptSuggestion($event, 'SUG_1660652770191')"> پذیرش </v-btn>
         </v-list-item>
       </template>
       </v-list>
@@ -109,7 +86,11 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
     props: [ 'auction'],
     data: () => ({
       suggestions: [] ,
-      persons: [] ,
+      person : {
+            name :'',
+            tel :'',
+            avatar :'',
+          },      
       personSuggestions: [] ,
       personSuggestion : {
             personId: '',
@@ -156,6 +137,7 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
     }),
       async mounted() {
         await this.getSuggestionsByAuction(this.auction.code);
+        await this.generatePersonSuggestions();
      },
      watch : {
 
@@ -174,33 +156,48 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
       async getPerson(personId) {
             await axios.get(SERVER_ADDRESS + 'person/' + personId)
                  .then(res => {
-                    this.persons.push.apply(this.persons, res.data);
+                    this.person = res.data;
+
+                    //this.persons.push.apply(this.persons, res.data);
                   }).catch(err => {
                     console.log('error');
                   })
         },  
 
-
-
-      generatePersonSuggestions() {
-
-        this.suggestions.forEach((suggestion) => {
-          this.personSuggestion.personId = suggestion.personId;
-          this.personSuggestion.auctionId = suggestion.auctionId; 
+      async generatePersonSuggestions() {
+          this.suggestions.forEach((suggestion) => {
+          //this.getPerson(suggestion.personID);
+          //console.log(this.person);
+          this.personSuggestion.personId = suggestion.personID;
+          this.personSuggestion.auctionId = suggestion.auctionID; 
           this.personSuggestion.suggestedPrice = suggestion.suggestedPrice;
           this.personSuggestion.status = suggestion.status ;
           this.personSuggestion.regDate = suggestion.regDate;
-          this.personSuggestion.name = 'nn';
-          this.personSuggestion.tel ='tt';
-          this.personSuggestion.avatar ='https://cdn.vuetifyjs.com/images/lists/3.jpg'; 
+          this.personSuggestion.name = this.person.name;
+          this.personSuggestion.tel = this.person.tel;
+          this.personSuggestion.avatar = this.person.avatar; 
 
           this.personSuggestions.push(this.personSuggestion);
           console.log(this.personSuggestion);
-          console.log(index);
-          });  
+          })
         },   
 
-      },
+      acceptSuggestion(event , suggestionId ){
+          console.log('acceptSuggestion');
+          console.log(suggestionId);
+          axios.post(SERVER_ADDRESS + 'acceptSuggestion', {
+          suggestionId: suggestionId,
+          })
+          .then(function (response) { 
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })     
 
+        },
+
+
+      }  
   }
 </script>
