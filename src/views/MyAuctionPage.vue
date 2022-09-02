@@ -9,8 +9,7 @@
 
       <v-container>
       <v-row dense>
-            <my-auction-item v-for="auction in auctions" :key="auction.index" :auction="auction"></my-auction-item>
- 
+            <my-auction-item v-for="auction in auctions" :key="auction.index" :auction="auction"></my-auction-item> 
       </v-row>
     </v-container>
 
@@ -20,7 +19,6 @@
 </template>
 
 <script>
-  let SERVER_ADDRESS = 'http://localhost:4000/';
   import axios from 'axios';
   import MyAuctionItem from '../components/MyAuctionItem.vue'
   export default {
@@ -33,7 +31,7 @@
       methods :{
           
           getAuctionsByPerson(personId) {
-            axios.get(SERVER_ADDRESS + 'auctionsByPerson/' + personId)
+            axios.get(this.$SERVER_ADDRESS + 'auctionsByPerson/' + personId)
                  .then(res => {
                     this.auctions.push.apply(this.auctions, res.data);
                   }).catch(err => {
@@ -42,7 +40,6 @@
         },   
       },
       async  mounted(){
-          console.log(localStorage.getItem('userid'));
           this.getAuctionsByPerson(localStorage.getItem('userid'));  
           } ,
   }

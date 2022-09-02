@@ -8,12 +8,12 @@
     <v-card-text>
 
     <v-col cols="12" align="center" justify="space-around" >
-    <v-text-field outlined  v-model="title" style="font-family:Vazir !important" label="عنوان"></v-text-field>
-    <v-text-field outlined  v-model="basePrice" style="font-family:Vazir !important" label="قیمت پایه"></v-text-field>
-    <v-text-field outlined  v-model="availableDays" style="font-family:Vazir !important" label="مدت"></v-text-field>
+    <v-text-field outlined :rules="[rules.required]"  v-model="title" style="font-family:Vazir !important" label="عنوان"></v-text-field>
+    <v-text-field outlined :rules="[rules.required]" v-model="basePrice" style="font-family:Vazir !important" label="قیمت پایه"></v-text-field>
+    <v-text-field outlined :rules="[rules.required, rules. deadline]" v-model="availableDays" style="font-family:Vazir !important" label="مدت"></v-text-field>
     <v-textarea outlined  v-model="features" style="font-family:Vazir !important" label="خصوصیات"></v-textarea>
     <v-textarea outlined  v-model="desc" style="font-family:Vazir !important" label="توضیحات"></v-textarea>
-    <v-text-field outlined  v-model="image1" style="font-family:Vazir !important" label="آدرس تصویر 1"></v-text-field>
+    <v-text-field outlined :rules="[rules.required]" v-model="image1" style="font-family:Vazir !important" label="آدرس تصویر 1"></v-text-field>
     <v-text-field outlined  v-model="image2" style="font-family:Vazir !important" label="آدرس تصویر 2"></v-text-field>
     <v-text-field outlined  v-model="image3" style="font-family:Vazir !important" label="آدرس تصویر 3"></v-text-field>
       <v-btn block  depressed color="primary" style="font-family:Vazir !important" @click="createAuction" >
@@ -31,7 +31,6 @@
 
 import axios from 'axios';
 
-let SERVER_ADDRESS = 'http://localhost:4000/';
 
   export default {
     components : {
@@ -45,20 +44,20 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
       features : '',
       image1 : '',
       image2 : '',
-      image3 : '',    
+      image3 : '',   
+      rules : {
+        required: value => !!value || 'ورود این فیلد الزامی است',
+        min: v => v.length >= 3|| 'حداقل طول  3 کارکتر می باشد',
+        deadline: value => value > 0|| 'تعداد روز باید حداقل برابر با یک باشد',
+      },
+       
     }),
-      async mounted() {
-     },
-     watch : {
 
-     },
     methods: {
 
         createAuction(){
-          console.log('comments');
           if(localStorage.getItem('userid')){
-            console.log(localStorage.getItem('userid'));
-            axios.post(SERVER_ADDRESS + 'auction', {
+            axios.post(this.$SERVER_ADDRESS + 'auction', {
             title : this.title,
             desc : this.desc,
             features : this.features,
@@ -69,17 +68,15 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
             availableDays : this.availableDays,
             personID : localStorage.getItem('userid')
           })
-          .then(function (response) {
-            console.log(response);
+          .then((response) =>{
+            this.$root.SnackBar.show({message: 'درخواست فروش شما ثبت شد'});
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
           });     
 
           }      
         },
-
-       
     },
 
   }

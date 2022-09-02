@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
-const HomePage = () => import( '../views/HomePage.vue')
-
 const AuctionPage = () => import( '../views/AuctionPage.vue')
 const AuctionDetailPage = () => import( '../views/AuctionDetailPage.vue')
 const MyAuctionPage = () => import( '../views/MyAuctionPage.vue')
@@ -16,7 +13,7 @@ Vue.use(VueRouter)
 const routes = [
   
 
-  { path: '/homepage', name: 'home-page', component: HomePage },
+
   { path: '/auctionpage', name: 'auction-page', component: AuctionPage },
   { path: '/auctiondetailpage/:auction', name: 'auction-detail-page', component: AuctionDetailPage , props : true },
   { path: '/myauctionpage', name: 'my-auction-page', component: MyAuctionPage },

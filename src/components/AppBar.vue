@@ -6,7 +6,7 @@
       color="primary"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title> حراجی من </v-toolbar-title>
+      <v-toolbar-title> حراجی  </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
 
@@ -29,16 +29,15 @@
 
       <v-list dense>
         <v-list-item
-          v-for="item in items"
-          :key="item.title"
+          @click="logout"
           link
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon> mdi-logout</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>خروج</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -54,16 +53,22 @@
       avatar : '',
       drawer: false,
       group: null,
-      items: [
-          { title: 'Home', icon: 'mdi-view-dashboard' },
-          { title: 'About', icon: 'mdi-forum' },
-        ],
+
     }), 
+    methods : {
+          logout() {
+            localStorage.removeItem('userid');
+            localStorage.removeItem('name');
+            localStorage.removeItem('tel');
+            localStorage.removeItem('avatar');
+            this.$router.replace({  name : 'login-page' })
+        }
+     },
     async mounted() {
         this.name = await localStorage.getItem('name');
         this.tel = await localStorage.getItem('tel');
         this.avatar = await localStorage.getItem('avatar');
-        console.log( 'mounted');
+
         
      },
 

@@ -8,7 +8,7 @@ module.exports = {
     'vuetify'
   ],
   pwa: {
-    name: 'guard',
+    name: 'auction_pwa',
     themeColor: '#1e88e5',
     msTileColor: '#000000',
     appleMobileWebAppCapable: 'yes',

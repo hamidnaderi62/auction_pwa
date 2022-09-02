@@ -15,6 +15,7 @@
                             تومان 
                         </v-list-item-subtitle>
                         <v-list-item-subtitle style="font-family:Vazir !important">
+                             <v-icon>mdi-clock-time-three-outline</v-icon>
                             زمان باقیمانده :
                             {{calculateDateDiff()}}
                             روز

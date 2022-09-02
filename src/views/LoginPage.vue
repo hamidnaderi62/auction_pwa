@@ -1,19 +1,19 @@
 <template>
-  <v-form>
+ <v-row  justify="center">
 
 
+ <v-form >
+      <v-col cols="12" justify="center" >
 
-
-      <v-col cols="12" align="center" justify="space-around" >
-
-
-        <v-avatar size="128">
+      <div class="text-center" >
+        <v-avatar size="128" >
           <img
             :src="require('../assets/logo.png')"
             alt="Auction"
+            
           >
         </v-avatar>
-
+      </div>
 
         <v-text-field  
           outlined  
@@ -45,12 +45,14 @@
 
 
    </v-form>
-</template>
+
+  </v-row>
+
+
+ </template>
 
 <script>
 import axios from 'axios';
-
-let SERVER_ADDRESS = 'http://localhost:4000/';
 
   export default {
     components : {
@@ -61,26 +63,17 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
       password : '',   
 
       show1: false,
-      password: '123',
+      password: '',
       rules : {
         required: value => !!value || 'ورود این فیلد الزامی است',
         min: v => v.length >= 3|| 'حداقل طول رمز ورود 3 کارکتر می باشد',
       },
 
     }),
-      async mounted() {
-        console.log( 'mounted');
-        
-     },
-     watch : {
-
-     },
     methods: {
 
         async perosnLogin(){
-          console.log('login');
-          if(this.username != '' && this.password != '' ){
-            await axios.post(SERVER_ADDRESS + 'login', {
+            await axios.post(this.$SERVER_ADDRESS + 'login', {
             username: this.username,
             password: this.password
           })
@@ -94,16 +87,14 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
               this.$router.replace({  name : 'auction-page' })
                              
             }
+            else{
+              this.$root.SnackBar.show({message: 'نام کاربری یا رمز ورود صحیح نمی باشد'});
+            }
             
           })
-          .catch(function (error) {
-            console.log(error);
+          .catch( (error)  =>{
+            this.$root.SnackBar.show({message: 'نام کاربری یا رمز ورود صحیح نمی باشد'});
           });     
-
-          } else
-          {
-            console.log('user or pass is empty');
-          }      
         },
     },
 

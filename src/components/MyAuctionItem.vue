@@ -15,6 +15,7 @@
                             تومان 
                         </v-list-item-subtitle>
                         <v-list-item-subtitle style="font-family:Vazir !important">
+                            <v-icon>mdi-clock-time-three-outline</v-icon>
                             زمان باقیمانده :
                             {{calculateDateDiff()}}
                             روز
@@ -50,13 +51,11 @@
                             {{auction.basePrice}}
                             تومان 
                         </v-list-item-subtitle>
-                        <v-list-item-subtitle style="font-family:Vazir !important">
-                            زمان باقیمانده :
-                            {{calculateDateDiff()}}
-                            روز
-                        </v-list-item-subtitle>
-                         <v-list-item-subtitle style="font-family:Vazir !important">
+                        <v-list-item-subtitle style="font-family:Vazir !important ; color: red" v-if="auction.status == 'Sold'">
                             فروخته شده
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle style="font-family:Vazir !important ; color: red" v-if="auction.status == 'Expired'">
+                            منقضی شده
                         </v-list-item-subtitle>
                     </v-list-item-content>
 

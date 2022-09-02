@@ -63,7 +63,6 @@
 <script>
 import axios from 'axios';
 
-let SERVER_ADDRESS = 'http://localhost:4000/';
 
   export default {
     components : {
@@ -72,28 +71,29 @@ let SERVER_ADDRESS = 'http://localhost:4000/';
     data: () => ({
       suggestedPrice: 0,
     }),
-      async mounted() {
-     },
-     watch : {
-
-     },
     methods: {
 
-        suggestPrice(){
-          console.log('suggestPrice');
+        async suggestPrice(){
           if(localStorage.getItem('userid')){
-            console.log(localStorage.getItem('userid'));
-            axios.post(SERVER_ADDRESS + 'suggestion', {
+            await axios.post(this.$SERVER_ADDRESS + 'suggestion', {
             personID:  localStorage.getItem('userid'),
             auctionID: this.auction.code,
             suggestedPrice : this.suggestedPrice
           })
-          .then(function (response) {
-            console.log(response);
+          .then(response  =>{
+            if(response.status == 201){
+              this.$root.SnackBar.show({message: 'پیشنهاد قیمت شما با موفقیت ثبت شد'});
+            }
+            else{
+              this.$root.SnackBar.show({message: response.data.message});
+            }
+            
+            
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
-          });     
+          });   
+           
 
           }      
         },
