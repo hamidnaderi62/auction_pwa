@@ -122,6 +122,7 @@ import axios from 'axios';
 
         async acceptSuggestion(suggestionId ){
           await axios.post(this.$SERVER_ADDRESS + 'acceptSuggestion', {
+            lang: this.$Lang,
             suggestionId: suggestionId,
             })
             .then((response) => { 

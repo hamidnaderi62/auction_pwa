@@ -76,6 +76,7 @@ import axios from 'axios';
         async suggestPrice(){
           if(localStorage.getItem('userid')){
             await axios.post(this.$SERVER_ADDRESS + 'suggestion', {
+            lang : this.$Lang,  
             personID:  localStorage.getItem('userid'),
             auctionID: this.auction.code,
             suggestedPrice : this.suggestedPrice

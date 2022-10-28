@@ -18,7 +18,7 @@
                             <v-icon>mdi-clock-time-three-outline</v-icon>
                             زمان باقیمانده :
                             {{calculateDateDiff()}}
-                            روز
+                            
                         </v-list-item-subtitle>
                     </v-list-item-content>
 
@@ -81,7 +81,8 @@ export default {
     props : ['auction'],
     methods : {
           calculateDateDiff() {
-            return Math.floor(( new Date(this.auction.regDate).getTime() + this.auction.availableDays * 86400000 - Date.now()) /86400000)
+            let remainDays = Math.floor(( new Date(this.auction.regDate).getTime() + this.auction.availableDays * 86400000 - Date.now()) /86400000)
+            return (remainDays >= 0) ? remainDays + ' روز باقیمانده '  : Math.abs(remainDays) + ' روز گذشته ' ;
         }
      },
     mounted(){
