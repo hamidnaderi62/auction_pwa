@@ -6,6 +6,7 @@
       <v-col cols="12" justify="center" >
 
       <div class="text-center" >
+       <br/><br/>
         <v-avatar size="128" >
           <img
             :src="require('../assets/logo.png')"
@@ -13,6 +14,15 @@
             
           >
         </v-avatar>
+
+         <br/><br/>
+        <div class="text-center">
+          <strong>
+           حراجی امن
+          </strong>
+           <br/><br/>
+        </div>
+
       </div>
 
         <v-text-field  

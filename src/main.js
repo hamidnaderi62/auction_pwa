@@ -6,7 +6,7 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$SERVER_ADDRESS = 'http://localhost:4001/';
+Vue.prototype.$SERVER_ADDRESS = 'http://85.208.253.245:4001/';
 Vue.prototype.$Lang = 'fa';
 
 new Vue({
